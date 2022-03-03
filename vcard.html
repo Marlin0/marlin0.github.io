@@ -6,53 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>批量生成VCard名片</title>
-    <script>
-        const btn1_onclick = function (down) {
-            let data = document.getElementById('tt').value;
-            if (data != "") {
-                var content = data.split("\n");
-                let r = "";
-                for (i = 0; i < content.length; i++) {
-                    if (content[i] != "") {
-                        var v = content[i].split(",")
-                        let name, phone;
-                        if (v.length < 2) {
-                            name = 10000 + i + 1;
-                            phone = v[0];
-                        } else {
-                            name = v[0];
-                            phone = v[1];
-                        }
-                        r += bindvcard(name, phone);
-                    }
-                }
-                document.getElementById('tted').value = r;
-                if (down){
-                    download_txt('Contacts.vcf', r)
-                }
-            }
-        }
-        
-        function bindvcard(name, phone) {
-            return "BEGIN:VCARD" +
-                "\r\nVERSION:3.0" +
-                "\r\nN:;" + name + ";;;" +
-                "\r\nFN: " + name +
-                "\r\nTEL;TYPE=VOICE,CELL;VALUE=text:" + phone +
-                "\r\nEND:VCARD\r\n"
-        }
-        /**
-         * 保存文件
-         */
-        function download_txt(filename, content, contentType) {
-            if (!contentType) contentType = 'application/octet-stream';
-            var a = document.createElement('a');
-            var blob = new Blob([content], { 'type': contentType });
-            a.href = window.URL.createObjectURL(blob);
-            a.download = filename;
-            a.click();
-        }
-    </script>
+    <script src="./js/vcard.js"></script>
     <style>
         body{
             text-align: center;
