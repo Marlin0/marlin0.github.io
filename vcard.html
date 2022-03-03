@@ -42,11 +42,7 @@
                 "\r\nEND:VCARD\r\n"
         }
         /**
-         * /@author mochu
-         * /@var filename 保存的文件名
-         * /@var txt 保存的内肉
-         * 
-         * /@link http://feiniaomy.com
+         * 保存文件
          */
         function download_txt(filename, content, contentType) {
             if (!contentType) contentType = 'application/octet-stream';
@@ -68,6 +64,11 @@
         div{
             display: inline;
         }
+        textarea{
+            min-width: 60px;
+            
+            min-height: 40px;
+        }
     </style>
 </head>
 
@@ -76,16 +77,29 @@
     <p>格式："姓名,手机号码" 也可以不填写姓名只填写手机号码 工具会自动生成姓名 每一行生成一个联系人 </p>
     <button id="btn1" onclick="btn1_onclick()">生成VCard名片 >>></button>
     <button id="btn2" onclick="btn1_onclick(true)">生成并下载</button>
-    <br>
+    <p>
         <div>
-            <textarea id="tt" rows="60" cols="40">
+            <table align="center">
+                <td align="left">
+                    <table>
+                    输入手机号码
+                    </table>
+                    <table>
+                    <textarea id="tt" rows="60" cols="40">
 1,123123123
 65498713
-</textarea>
-        </div>
-        <div>
-            <textarea id="tted" rows="60" cols="40"></textarea>
-        </div>
+    </textarea></table>
+                </td>
+                <td align="left">
+                    <div>
+                        <table>
+                        生成的VCard名片
+                    </table>
+                        <textarea id="tted" rows="60" cols="40"></textarea>
+                    </div>
+                </td>
+            </table>
+    </div>
 </body>
 
 </html>
