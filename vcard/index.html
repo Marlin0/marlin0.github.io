@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量生成VCard名片</title>
+    <script src="../js/vcard.js"></script>
+    <style>
+        body{
+            text-align: center;
+        }
+        button {
+            width: 150px;
+            height: 40px;
+        }
+        div{
+            display: inline;
+        }
+        textarea{
+            min-width: 20rem;
+            min-height: 30rem;
+            max-width: 40rem;
+            max-height: 50rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>批量生成VCard名片</h1>
+    <p>格式："姓名,手机号码" 也可以不填写姓名只填写手机号码 工具会自动生成姓名 每一行生成一个联系人 </p>
+    <button id="btn1" onclick="btn1_onclick()">生成VCard名片 >>></button>
+    <button id="btn2" onclick="btn1_onclick(true)">生成并下载</button>
+    <p>
+        <div>
+            <table align="center">
+                <td align="left">
+                    <table>
+                    输入手机号码
+                    </table>
+                    <table>
+                    <textarea id="tt" >
+1,123123123
+65498713
+</textarea>
+                    </table>
+                </td>
+                <td align="left">
+                    <div>
+                        <table>
+                        生成的VCard名片
+                    </table>
+                        <textarea id="tted" ></textarea>
+                    </div>
+                </td>
+            </table>
+    </div>
+</body>
+
+</html>
