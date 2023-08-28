@@ -29,7 +29,7 @@
       padding: 10px 2px;
       height: 44px;
       font-weight: normal;
-      text-align: right;
+      text-align: left;
     }
     table.content td {
       background: #ddd;
@@ -2276,16 +2276,16 @@ async function testIPs(ipList) {
       }, timeout);
       if (ch) {
         timeout = 1 * multiply * maxLatency;
-        document.getElementById('test-no').innerText = `测试号 ${testNo}:`;
+        document.getElementById('test-no').innerText = `测试 ${testNo}:号`;
         document.getElementById('ip-no').innerText = ip;
-        document.getElementById('ip-no').style = `color: green`;
+        document.getElementById('ip-no').style = 'color: green';
         document.getElementById('ip-try').innerText = ch;
         document.getElementById('ip-latency').innerText = Math.floor((performance.now() - startTime) / chNo) + 'ms';
       } else {
         timeout = 1.2 * multiply * maxLatency;
-        document.getElementById('test-no').innerText = `测试号 ${testNo}:`;
+        document.getElementById('test-no').innerText = `测试 ${testNo}:号`;
         document.getElementById('ip-no').innerText = ip;
-        document.getElementById('ip-no').style = `color: red`;
+        document.getElementById('ip-no').style = 'color: red';
         document.getElementById('ip-try').innerText = '';
         document.getElementById('ip-latency').innerText = '';
       }
