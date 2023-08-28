@@ -1,2 +1,2 @@
-项目源于[vfarid](https://github.com/vfarid/cf-ip-scanner)
-此仓库仅做汉化 未做其他修改
+- 项目源于[vfarid](https://github.com/vfarid/cf-ip-scanner)
+- 此仓库仅做汉化 未做其他修改
