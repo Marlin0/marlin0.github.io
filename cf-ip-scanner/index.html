@@ -5,11 +5,11 @@
   <!-- <link href="https://fonts.cdnfonts.com/css/iranian-sans" rel="stylesheet"> -->
   <style type="text/css">
     body {
-      font-family: 'Iranian Sans', sans-serif;
+      /* font-family: 'Iranian Sans', sans-serif; */
       font-size: 12px;
       background: #888;
       counter-reset: Serial;
-      direction: rtl;
+      /* direction: rtl; */
       margin: 0;
     }
     a {
@@ -29,7 +29,7 @@
       padding: 10px 2px;
       height: 44px;
       font-weight: normal;
-      text-align: right;
+      text-align: left;
     }
     table.content td {
       background: #ddd;
@@ -53,10 +53,10 @@
       content: counter(Serial);
     }
     table.list tr td:last-child, th:last-child {
-      text-align: left;
+      text-align: right;
     }
     div.scan-finished {
-/*      display: none;*/
+     display: none;
     }
     div.text-div {
       background-color: #ddd;
@@ -76,7 +76,7 @@
       font-weight: bold;
       color: green;
       padding: 7px;
-      float: left;
+      float: right;
     }
     button.cancel{
       width: 150px;
@@ -84,14 +84,14 @@
       font-weight: bold;
       color: red;
       padding: 7px;
-      float: left;
+      float: right;
       display: none;
     }
   </style>
 </head>
 <body>
   <div style="padding: 0; margin: auto; width: 360px;">
-    <table dir="rtl" class="content">
+    <table class="content">
       <tr>
         <td colspan="2" align="center" style="border-bottom: 1px solid #666;">
           <strong>Cloudflare IP优选</strong>
@@ -107,17 +107,17 @@
       </tr>
       <tr>
         <td colspan="2">
-          <label>正则表达式：<input type="text" dir="ltr" id="ip-regex" placeholder="^104\.17\.|^141\." /></label>
+          <label>正则表达式：<input type="text" id="ip-regex" placeholder="^104\.17\.|^141\." /></label>
         </td>
       </tr>
       <tr>
         <td colspan="2">
-          <label>仅来自此IP范围：<input type="text" dir="ltr" id="ip-include" placeholder="104.17,141" /></label>
+          <label>仅来自此IP范围：<input type="text" id="ip-include" placeholder="104.17,141" /></label>
         </td>
       </tr>
       <tr>
         <td colspan="2">
-          <label>不包括此IP范围：<input type="text" dir="ltr" id="ip-exclude" placeholder="8,103.22" /></label>
+          <label>不包括此IP范围：<input type="text" id="ip-exclude" placeholder="8,103.22" /></label>
         </td>
       </tr>
       <tr>
