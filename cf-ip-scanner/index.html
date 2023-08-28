@@ -29,7 +29,7 @@
       padding: 10px 2px;
       height: 44px;
       font-weight: normal;
-      text-align: left;
+      text-align: right;
     }
     table.content td {
       background: #ddd;
@@ -126,16 +126,16 @@
         </td>
         <td>
           <button id="btn-start" class="start" onclick="startScan()">开始</button>
-          <button id="btn-cancel" class="cancel" onclick="cancelScan()">清除</button>
+          <button id="btn-cancel" class="cancel" onclick="cancelScan()">停止</button>
         </td>
       </tr>
     </table>
     <div class="text-div" style="border-top: 1px solid #666; background: white;">
       <div id="start-hint" style="color: red;">开始之前关闭你的代理工具</div>
-      <div style="width: 110px; float: right;"><span id="test-no"></span></div>
-      <div style="width: 120px; float: right;"><span id="ip-no"></span></div>
-      <div style="width: 30px; float: right;"><span id="ip-try"></span></div>
-      <div style="width: 60px; float: right;"><span id="ip-latency"></span></div>
+      <div style="width: 110px; float: left;"><span id="test-no"></span></div>
+      <div style="width: 120px; float: left;"><span id="ip-no"></span></div>
+      <div style="width: 30px; float: left;"><span id="ip-try"></span></div>
+      <div style="width: 60px; float: left;"><span id="ip-latency"></span></div>
     </div>
     <table class="list">
       <thead>
@@ -2214,7 +2214,7 @@ function startScan() {
   document.getElementById('btn-start').disabled = 'disabled';
   document.getElementById('btn-start').style.color = 'gray';
   document.getElementById('test-no').innerText = '';
-  document.getElementById('start-hint').innerHTML = `准备 <img src="./assets/preparing.gif" height="16" />`;
+  document.getElementById('start-hint').innerHTML = `<img src="./assets/preparing.gif" height="16" /> 正在筛选IP 请稍后....`;
   document.getElementById('start-hint').style = `color: green; font-weight: bold;`;
 
   setTimeout(() => {
@@ -2246,6 +2246,9 @@ function startScan() {
         continue;
       }
       ips = ips.concat(cidrToIpArray(cidr));
+    //   console.log(cidr);
+    //   document.getElementById('start-hint').innerHTML = `<img src="./assets/preparing.gif" height="16" /> 加入IP列表：`;
+    //   document.getElementById('ip-no').innerText = cidr;
     }
 
     ips = randomizeElements(ips);
