@@ -1,6 +1,6 @@
 # Online Tools
-Please go to [Online Tools](http://emn178.github.io/online-tools/)
+Please go to [Online Tools](http://tools.dd99.top/online-tools/)
 
 ## Contact
-The project's website is located at https://github.com/emn178/online-tools  
+The project's website is located at https://tools.dd99.top/online-tools  
 Author: emn178@gmail.com
