@@ -22,6 +22,7 @@
             font-size: 20px;
         }
     </style>
+    <title>字符数工具</title>
 </head>
 <body>
     <h1>计算文本字符字数的工具</h1>
@@ -37,6 +38,8 @@
         function updateCount() {
             // 获取文本输入框的值
             var text = textInput.value;
+            // 过滤空格和回车字符
+            text = text.replace(/\s/g, "");
             // 计算文本字符字数
             var textLength = text.length;
             // 显示文本字符字数
