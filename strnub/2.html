@@ -23,18 +23,25 @@
         }
 
         input {
-            width: 80%;
-            margin: 10px auto;
-            display: block;
+            width: 80px;
+            margin: 10px 5px;
+            display: inline-block;
+        }
+
+        #count {
+            color: blue;
+        }
+
+        #video-time {
+            color: red;
         }
     </style>
+    <title>通过字符数计算视频长度工具</title>
 </head>
 <body>
-    <h1>字符数工具</h1>
+    <h1>通过字符数计算视频长度工具</h1>
     <textarea id="text-input" placeholder="在这里输入你的文本"></textarea>
-    <p id="result">文本字符字数为: <span id="count">0</span></p>
-    <p>每秒字数数量: <input id="speed-input" type="number" min="1" max="100" value="10"></p>
-    <p id="video-result">视频时长为: <span id="video-time">0</span> 秒</p>
+    <p id="result">文本字符字数为: <span id="count">0</span> | 每秒字数数量: <input id="speed-input" type="number" min="1" max="100" value="10"> | 视频时长为: <span id="video-time">0</span> 秒</p>
     <script>
         // 获取文本输入框和结果显示元素
         var textInput = document.getElementById("text-input");
