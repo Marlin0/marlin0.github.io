@@ -1,0 +1,50 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        textarea {
+            width: 80%;
+            height: 200px;
+            margin: 10px auto;
+            display: block;
+        }
+
+        p {
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>计算文本字符字数的工具</h1>
+    <textarea id="text-input" placeholder="在这里输入你的文本"></textarea>
+    <p id="result">文本字符字数为: <span id="count">0</span></p>
+    <script>
+        // 获取文本输入框和结果显示元素
+        var textInput = document.getElementById("text-input");
+        var result = document.getElementById("result");
+        var count = document.getElementById("count");
+
+        // 定义一个函数，用于计算并显示文本字符字数
+        function updateCount() {
+            // 获取文本输入框的值
+            var text = textInput.value;
+            // 计算文本字符字数
+            var textLength = text.length;
+            // 显示文本字符字数
+            count.textContent = textLength;
+        }
+
+        // 为文本输入框添加一个事件监听器，当文本改变时，调用updateCount函数
+        textInput.addEventListener("input", updateCount);
+    </script>
+</body>
+</html>
