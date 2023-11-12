@@ -21,18 +21,35 @@
             text-align: center;
             font-size: 20px;
         }
+
+        input {
+            width: 80px;
+            margin: 10px 5px;
+            display: inline-block;
+        }
+
+        #count {
+            color: blue;
+        }
+
+        #video-time {
+            color: red;
+        }
     </style>
-    <title>字符数工具</title>
+    <title>通过字符数计算视频长度工具</title>
 </head>
 <body>
-    <h1>计算文本字符字数的工具</h1>
+    <h1>通过字符数计算视频长度工具</h1>
     <textarea id="text-input" placeholder="在这里输入你的文本"></textarea>
-    <p id="result">文本字符字数为: <span id="count">0</span></p>
+    <p id="result">文本字符字数为: <span id="count">0</span> | 每秒字数数量: <input id="speed-input" type="number" min="1" max="100" value="5">个 | 视频时长为: <span id="video-time">0</span> 秒</p>
     <script>
         // 获取文本输入框和结果显示元素
         var textInput = document.getElementById("text-input");
         var result = document.getElementById("result");
         var count = document.getElementById("count");
+        var speedInput = document.getElementById("speed-input");
+        var videoResult = document.getElementById("video-result");
+        var videoTime = document.getElementById("video-time");
 
         // 定义一个函数，用于计算并显示文本字符字数
         function updateCount() {
@@ -44,10 +61,26 @@
             var textLength = text.length;
             // 显示文本字符字数
             count.textContent = textLength;
+            // 调用updateVideoTime函数，更新视频时长
+            updateVideoTime();
+        }
+
+        // 定义一个函数，用于计算并显示视频时长
+        function updateVideoTime() {
+            // 获取每秒字数数量的值
+            var speed = speedInput.value;
+            // 获取文本字符字数的值
+            var textLength = count.textContent;
+            // 计算视频时长，四舍五入到整数
+            var videoLength = Math.round(textLength / speed);
+            // 显示视频时长
+            videoTime.textContent = videoLength;
         }
 
         // 为文本输入框添加一个事件监听器，当文本改变时，调用updateCount函数
         textInput.addEventListener("input", updateCount);
+        // 为每秒字数数量输入框添加一个事件监听器，当值改变时，调用updateVideoTime函数
+        speedInput.addEventListener("change", updateVideoTime);
     </script>
 </body>
 </html>
