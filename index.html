@@ -1,0 +1,104 @@
+<html>
+<head>
+    <title>工具箱</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        #banner {
+            width: 100%;
+            height: 80px;
+            background-color: #cecece;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #banner h1 {
+            font-size: 30px;
+            color: #ffffff;
+        }
+
+        #sidebar {
+            width: 20%;
+            height: calc(100vh - 50px);
+            background-color: #f0f0f0;
+            overflow-y: auto;
+        }
+
+        #main {
+            width: 80%;
+            height: calc(100vh - 50px);
+            background-color: #ffffff;
+            overflow-y: auto;
+        }
+
+        #container {
+            display: flex;
+        }
+
+        .tool {
+            padding: 10px;
+            border-bottom: 1px solid #cccccc;
+            cursor: pointer;
+        }
+
+        .tool:hover {
+            background-color: #e0e0e0;
+        }
+
+        .tool.active {
+            background-color: #d0d0d0;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="banner">
+        <h1>工具箱</h1>
+    </div>
+    <div id="container">
+        <div id="sidebar">
+            <div class="tool" data-url="vcard">批量生成VCard名片</div>
+            <div class="tool" data-url="^cf-ip-scanner^">Cloudflare IP优选</div>
+            <div class="tool" data-url="^online-tools^">online-tools</div>
+            <div class="tool" data-url="^strnub^">字符文字数</div>
+        </div>
+        <div id="main">
+            <iframe id="iframe" src=""></iframe>
+        </div>
+    </div>
+    <script>
+        // 获取侧边栏和主区域的元素
+        var sidebar = document.getElementById("sidebar");
+        var main = document.getElementById("main");
+        // 获取工具列表和网页框架的元素
+        var tools = document.getElementsByClassName("tool");
+        var iframe = document.getElementById("iframe");
+        // 定义一个函数，用于切换工具的激活状态和显示对应的网页
+        function switchTool(e) {
+            // 获取当前点击的工具元素
+            var currentTool = e.target;
+            // 获取当前点击的工具的网页地址
+            var currentUrl = currentTool.dataset.url;
+            // 遍历所有的工具元素，取消激活状态
+            for (var i = 0; i < tools.length; i++) {
+                tools[i].classList.remove("active");
+            }
+            // 给当前点击的工具元素添加激活状态
+            currentTool.classList.add("active");
+            // 将网页框架的源地址设置为当前点击的工具的网页地址
+            iframe.src = currentUrl;
+        }
+        // 为侧边栏添加一个事件监听器，当点击工具时，调用switchTool函数
+        sidebar.addEventListener("click", switchTool);
+    </script>
+</body>
+</html>
