@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>工具箱</title>
+    <title>工具箱 tools.dd99.top</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -10,7 +10,7 @@
         #banner {
             width: 100%;
             height: 80px;
-            background-color: #cecece;
+            background-color: #d0d0d0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -22,14 +22,14 @@
         }
 
         #sidebar {
-            width: 20%;
+            width: 15%;
             height: calc(100vh - 50px);
             background-color: #f0f0f0;
             overflow-y: auto;
         }
 
         #main {
-            width: 80%;
+            width: 85%;
             height: calc(100vh - 50px);
             background-color: #ffffff;
             overflow-y: auto;
@@ -62,7 +62,7 @@
 </head>
 <body>
     <div id="banner">
-        <h1>tools.dd99.top 工具箱</h1>
+        <h1>工具箱</h1>
     </div>
     <div id="container">
         <div id="sidebar">
@@ -99,6 +99,52 @@
         }
         // 为侧边栏添加一个事件监听器，当点击工具时，调用switchTool函数
         sidebar.addEventListener("click", switchTool);
+        // 定义一个函数，用于获取网页的参数
+        function getParameter(name) {
+            // 获取网页的地址
+            var url = window.location.href;
+            // 拼接参数的名称和等号
+            name = name + "=";
+            // 获取参数的开始位置
+            var start = url.indexOf(name);
+            // 如果参数存在
+            if (start != -1) {
+                // 获取参数的值的开始位置
+                start = start + name.length;
+                // 获取参数的值的结束位置
+                var end = url.indexOf("&", start);
+                // 如果结束位置不存在，就取地址的长度
+                if (end == -1) {
+                    end = url.length;
+                }
+                // 返回参数的值
+                return url.substring(start, end);
+            }
+            // 如果参数不存在，就返回空字符串
+            return "";
+        }
+        // 定义一个函数，用于根据参数跳转到对应的工具
+        function jumpToTool() {
+            // 获取参数tool的值
+            var tool = getParameter("tool");
+            // 如果参数tool的值不为空
+            if (tool != "") {
+                // 遍历所有的工具元素
+                for (var i = 0; i < tools.length; i++) {
+                    // 获取当前工具元素的网页地址
+                    var currentUrl = tools[i].dataset.url;
+                    // 如果当前工具元素的网页地址和参数tool的值相同
+                    if (currentUrl == tool) {
+                        // 触发当前工具元素的点击事件
+                        tools[i].click();
+                        // 跳出循环
+                        break;
+                    }
+                }
+            }
+        }
+        // 调用jumpToTool函数，根据参数跳转到对应的工具
+        jumpToTool();
     </script>
 </body>
 </html>
