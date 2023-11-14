@@ -18,8 +18,8 @@ jobs:
           echo $count > count.txt
       - name: Commit and push
         run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
+          git config --global user.name 'marlin0'
+          git config --global user.email 'marlinmail@qq.com'
           git add count.txt
           git commit -m "Update count"
           git push
