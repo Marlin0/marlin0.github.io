@@ -15,31 +15,22 @@
             align-items: center;
             justify-content: center;
         }
-        
-        #banner2 {
-            width: 100%;
-            height: 30px;
-            background-color: #d0d0d0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
-        #banner banner2 h1 {
+        #banner h1 {
             font-size: 30px;
             color: #ffffff;
         }
 
         #sidebar {
-            width: 15%;
-            height: calc(100vh - 50px);
+            width: 20%;
+            height: calc(100vh - 120px);
             background-color: #f0f0f0;
             overflow-y: auto;
         }
 
         #main {
-            width: 85%;
-            height: calc(100vh - 50px);
+            width: 80%;
+            height: calc(100vh - 120px);
             background-color: #ffffff;
             overflow-y: auto;
         }
@@ -67,6 +58,20 @@
             height: 100%;
             border: none;
         }
+
+        #footer {
+            width: 100%;
+            height: 40px;
+            background-color: #d0d0d0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #footer h1 {
+            font-size: 12px;
+            color: #505050;
+        }
     </style>
 </head>
 <body>
@@ -84,8 +89,8 @@
             <iframe id="iframe" src=""></iframe>
         </div>
     </div>
-    <div id="banner2">
-        <h1>底</h1>
+    <div id="footer">
+        <h1>这个网页被访问了 <span id="count">0</span> 次</h1>
     </div>
     <script>
         // 获取侧边栏和主区域的元素
@@ -157,6 +162,33 @@
         }
         // 调用jumpToTool函数，根据参数跳转到对应的工具
         jumpToTool();
+    </script>
+    <script>
+        // 定义一个函数，用于获取并显示访问计数的数据
+        function getCount() {
+            // 创建一个XMLHttpRequest对象，用于发送和接收数据
+            var xhr = new XMLHttpRequest();
+            // 设置请求的方法和地址，其中仓库名称和分支名称需要修改为你自己的设置
+            xhr.open("GET", "https://raw.githubusercontent.com/Marlin0/marlin0.github.io/main/count.txt");
+            // 设置请求的响应类型为文本
+            xhr.responseType = "text";
+            // 为请求添加一个事件监听器，当请求完成时，执行以下的代码
+            xhr.onload = function() {
+                // 如果请求的状态码为200，表示请求成功
+                if (xhr.status == 200) {
+                    // 获取请求的响应数据，也就是访问计数的数据
+                    var count = xhr.response;
+                    // 获取网页中显示访问计数的元素
+                    var countElement = document.getElementById("count");
+                    // 将元素的内容设置为访问计数的数据
+                    countElement.textContent = count;
+                }
+            };
+            // 发送请求
+            xhr.send();
+        }
+        // 调用getCount函数，获取并显示访问计数的数据
+        getCount();
     </script>
 </body>
 </html>
