@@ -10,23 +10,72 @@
       text-align: center;
     }
 
-    #timer {
+    #timerAndInputContainer {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    #timerInput {
       font-size: 2em;
-      margin-top: 20px;
+      border: none;
+      outline: none;
+      width: 50%;
+      text-align: center;
+      margin: 20px auto;
+      width: 150px;
+    }
+
+    @keyframes flipIn {
+    from {
+      transform: rotateX(90deg);
+      opacity: 0;
+    }
+    to {
+      transform: rotateX(0deg);
+      opacity: 1;
+    }
+  }
+
+    #timer {
+      font-size: 8vw;
+      color: #ff4848;
+      animation: flipIn 0.2s ease-in-out;
     }
 
     #buttons {
       margin-top: 20px;
+      margin: 50px 10px;
     }
 
     button {
-      font-size: 1em;
+      font-size: 3em;
       margin: 0 10px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      background-color: #5cafe7;
+      color: #fff;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #5cafe7;
+    }
+
+    button:active {
+      transform: scale(0.95);
     }
   </style>
 </head>
 <body>
-  <div id="timer">0天 0小时 0分钟 0秒</div>
+  <div id="timerAndInputContainer">
+    <input type="text" id="timerInput" value="工作时长：">
+    <div id="timer">0天 0小时 0分钟 0秒</div>
+  </div>
   <div id="buttons">
     <button id="startPause">开始</button>
     <button id="reset">复位</button>
@@ -35,12 +84,19 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       let timerElement = document.getElementById('timer');
+      let timerInputElement = document.getElementById('timerInput');
       let startPauseButton = document.getElementById('startPause');
       let resetButton = document.getElementById('reset');
+
 
       let timerInterval;
       let startTime;
       let pausedTime = 0;
+      let t_c_b = '#5cafe7'
+      let t_c_r = '#ff4848'
+
+      // 设置暂停时的颜色为红色
+      timerElement.style.color = t_c_r;
 
       function updateTimer() {
         let currentTime = new Date().getTime();
@@ -52,31 +108,74 @@
         let seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
 
         timerElement.innerHTML = `${days}天 ${hours}小时 ${minutes}分钟 ${seconds}秒`;
+    
+        // 在每次计时器更新时保存数据到缓存
+        localStorage.setItem('timerData', elapsedTime.toString());
+
+        // 根据计时器状态设置颜色
+        timerElement.style.color = timerInterval ? t_c_b : t_c_r;
+
       }
+
+      function handleKeyPress(event) {
+            // 检查按下的键是否是空格键
+            if (event.code === 'Space') {
+            startPauseTimer();
+            }
+            // 检查按下的键是否是Esc键
+            else if (event.code === 'Escape') {
+            resetTimer();
+            }
+        }
+        // 添加键盘事件监听器
+        document.addEventListener('keydown', handleKeyPress);
 
       function startPauseTimer() {
         if (startPauseButton.innerHTML === '开始') {
           startTime = new Date().getTime();
           timerInterval = setInterval(updateTimer, 1000);
           startPauseButton.innerHTML = '暂停';
+          // 设置初始颜色为蓝色
+          timerElement.style.color = t_c_b;
         } else if (startPauseButton.innerHTML === '暂停') {
           clearInterval(timerInterval);
           pausedTime += new Date().getTime() - startTime;
           startPauseButton.innerHTML = '继续';
+          // 设置暂停时的颜色为红色
+          timerElement.style.color = t_c_r;
         } else if (startPauseButton.innerHTML === '继续') {
           startTime = new Date().getTime();
           timerInterval = setInterval(updateTimer, 1000);
           startPauseButton.innerHTML = '暂停';
+          // 设置继续时的颜色为蓝色
+          timerElement.style.color = t_c_b;
         }
       }
 
       function resetTimer() {
         clearInterval(timerInterval);
         pausedTime = 0;
+        startTime = new Date().getTime(); // 初始化 startTime
         updateTimer();
         startPauseButton.innerHTML = '开始';
         timerElement.innerHTML = '0天 0小时 0分钟 0秒';
         localStorage.removeItem('timerData'); // 清除本地存储的数据
+        
+        // 设置颜色为红色
+        timerElement.style.color = t_c_r;
+      }
+
+      // 监听timerInput的输入事件
+      timerInputElement.addEventListener('input', function () {
+        // 将用户输入的数据保存到缓存中
+        localStorage.setItem('timerInputData', timerInputElement.value);
+      });
+
+      // Load timer input data from browser cache
+      let storedTimerInputData = localStorage.getItem('timerInputData');
+      if (storedTimerInputData) {
+        // 如果有缓存数据，将其设置为timerInput的值
+        timerInputElement.value = storedTimerInputData;
       }
 
       startPauseButton.addEventListener('click', startPauseTimer);
@@ -86,16 +185,12 @@
       let storedTime = localStorage.getItem('timerData');
       if (storedTime) {
         pausedTime = parseInt(storedTime);
+        startTime = new Date().getTime(); // 初始化 startTime
         updateTimer();
         if (startPauseButton.innerHTML === '继续') {
           startPauseButton.click();
         }
       }
-    });
-
-    // Save timer data to browser cache before closing the page
-    window.addEventListener('beforeunload', function () {
-      localStorage.setItem('timerData', pausedTime.toString());
     });
   </script>
 </body>
