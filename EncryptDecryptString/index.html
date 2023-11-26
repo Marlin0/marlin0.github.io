@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Encryption and Decryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        textarea, input, button {
+            margin: 10px;
+        }
+        textarea{
+            height: 200px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <label for="originalString">Original String:</label>
+    <textarea id="originalString" placeholder="Enter a string"></textarea>
+
+    <label for="shiftValue">Shift Value:</label>
+    <input type="number" id="shiftValue" value="10" min="1" step="1">
+
+    <button onclick="encodeString()">Encrypt</button>
+    <button onclick="decodeString()">Decrypt</button>
+
+    <label for="encodedString">Encoded String:</label>
+    <textarea id="encodedString"></textarea>
+
+    <script>
+        function customEncode(str, shiftValue) {
+            var result = "";
+            for (var i = 0; i < str.length; i++) {
+                var code = str.charCodeAt(i);
+                code = code + shiftValue;
+                result += String.fromCharCode(code);
+            }
+            return result;
+        }
+
+        function customDecode(str, shiftValue) {
+            var result = "";
+            for (var i = 0; i < str.length; i++) {
+                var code = str.charCodeAt(i);
+                code = code - shiftValue;
+                result += String.fromCharCode(code);
+            }
+            return result;
+        }
+
+        function encodeString() {
+            var originalString = document.getElementById("originalString").value;
+            var shiftValue = parseInt(document.getElementById("shiftValue").value) || 10;
+            var encodedString = customEncode(originalString, shiftValue);
+            document.getElementById("encodedString").value = encodedString;
+        }
+
+        function decodeString() {
+            var encodedString = document.getElementById("encodedString").value;
+            var shiftValue = parseInt(document.getElementById("shiftValue").value) || 10;
+            var decodedString = customDecode(encodedString, shiftValue);
+            document.getElementById("originalString").value = decodedString;
+        }
+    </script>
+
+</body>
+</html>
