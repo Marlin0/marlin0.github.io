@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Runner</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/dracula.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+    }
+    #editor-container {
+      flex: 1;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    #result-container {
+      flex: 1;
+      padding: 10px;
+      box-sizing: border-box;
+      border-left: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div id="editor-container">
+    <h2>输入 JavaScript 代码：</h2>
+    <textarea id="code-input"></textarea>
+    <br>
+    <button onclick="runCode()">运行</button>
+  </div>
+  <div id="result-container">
+    <h2>结果：</h2>
+    <div id="result-output"></div>
+  </div>
+
+  <script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("code-input"), {
+      lineNumbers: true,
+      theme: "dracula",
+      mode: "javascript"
+    });
+
+    function runCode() {
+      // 获取用户输入的代码
+      var code = editor.getValue();
+
+      try {
+        // 使用 eval 执行用户输入的代码
+        var result = eval(code);
+        // 显示执行结果
+        document.getElementById("result-output").innerHTML = result;
+      } catch (error) {
+        // 如果发生错误，显示错误信息
+        document.getElementById("result-output").innerHTML = "Error: " + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
