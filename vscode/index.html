@@ -1,143 +1,212 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VS Code Web</title>
-  <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    #toolbar {
-      height: 50px;
-      background-color: #333;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-    }
-    #branding {
-      font-size: 24px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    #subtext {
-      font-size: 12px;
-      margin-left: auto;
-      color: #ccc; /* 小字的颜色 */
-    }
-    #languageSelector {
-      margin-right: 20px;
-    }
-    #editor {
-      width: 100%;
-      height: calc(100vh - 100px);
-      margin: auto;
-    }
-    #statusBar {
-      height: 50px;
-      background-color: #333;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VS Code Web</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #toolbar {
+            height: 50px;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        #branding {
+            font-size: 24px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #subtext {
+            font-size: 12px;
+            margin-left: auto;
+            color: #ccc;
+            /* 小字的颜色 */
+        }
+
+        #languageSelector {
+            margin-right: 20px;
+        }
+
+        #editor {
+            width: 70%;
+            height: calc(100vh - 100px);
+            margin: auto;
+        }
+
+        #statusBar {
+            height: 50px;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        #cententbar {
+            height: calc(100% - 100px);
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        #run-output {
+            height: 100%;
+            width: 30%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+            background-color: #333;
+        }
+
+        #run-output-name {
+            height: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        #run-output-content {
+            height: 100%;
+            width: calc(100% - 10px);
+            padding: 5px;
+            background-color: #555;
+        }
+    </style>
 </head>
+
 <body>
 
-<div id="toolbar">
-  <!-- 下拉列表 -->
-  <select id="languageSelector">
-    <option value="javascript">JavaScript</option>
-    <option value="typescript">TypeScript</option>
-    <option value="html">HTML</option>
-    <option value="css">CSS</option>
-    <!-- 添加其他语言选项 -->
-  </select>
-  <!-- 中间的大字文本 -->
-  <div id="branding">
-    VS Code Web
-  </div>
-  <!-- 右侧的小字文本 -->
-  <div id="subtext">
-    实时本地保存 不涉及云端 请注意代码的保存！！！
-  </div>
-</div>
+    <div id="toolbar">
+        <!-- 下拉列表 -->
+        <select id="languageSelector">
+            <option value="javascript">JavaScript</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="typescript">TypeScript</option>
+            <!-- 添加其他语言选项 -->
+        </select>
+        <button id="runbut">运行Javascript代码</button>
+        <!-- 中间的大字文本 -->
+        <div id="branding">
+            VS Code Web
+        </div>
+        <!-- 右侧的小字文本 -->
+        <div id="subtext">
+            实时本地保存 不涉及云端 请注意代码的保存！！！
+        </div>
+    </div>
+    <div id="cententbar">
+        <div id="editor"></div>
+        <div id="run-output">
+            <div id="run-output-name">HTML预览：</div>
+            <div id="run-output-content"></div>
+        </div>
+    </div>
 
-<div id="editor"></div>
+    <div id="statusBar">
+        <!-- 状态栏内容 -->
+        <span id="lineCount">行数: 0</span>
+        <span id="charCount">字符数: 0</span>
+    </div>
 
-<div id="statusBar">
-  <!-- 状态栏内容 -->
-  <span id="lineCount">行数: 0</span>
-  <span id="charCount">字符数: 0</span>
-</div>
+    <script src="https://unpkg.com/monaco-editor@0.29.0/min/vs/loader.js"></script>
+    <script>
+        require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.29.0/min/vs' } });
 
-<script src="https://unpkg.com/monaco-editor@0.29.0/min/vs/loader.js"></script>
-<script>
-  require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.29.0/min/vs' } });
+        require(['vs/editor/editor.main'], function () {
+            // 获取保存在本地存储中的代码和语言，如果有的话
+            var savedCode = localStorage.getItem('code');
+            var savedLanguage = localStorage.getItem('language') || 'javascript';
 
-  require(['vs/editor/editor.main'], function () {
-    // 获取保存在本地存储中的代码和语言，如果有的话
-    var savedCode = localStorage.getItem('code');
-    var savedLanguage = localStorage.getItem('language') || 'javascript';
+            // 设置下拉列表的初始值
+            document.getElementById('languageSelector').value = savedLanguage;
 
-    // 设置下拉列表的初始值
-    document.getElementById('languageSelector').value = savedLanguage;
+            var editor = monaco.editor.create(document.getElementById('editor'), {
+                value: savedCode || [
+                    'function 你好() {',
+                    '\talert("你好，世界！");',
+                    '}'
+                ].join('\n'),
+                language: savedLanguage,
+                theme: 'vs-dark'
+            });
 
-    var editor = monaco.editor.create(document.getElementById('editor'), {
-      value: savedCode || [
-        'function 你好() {',
-        '\talert("你好，世界！");',
-        '}'
-      ].join('\n'),
-      language: savedLanguage,
-      theme: 'vs-dark'
-    });
+            // 监听编辑器内容变化事件，保存代码和语言到本地存储，并更新状态栏
+            editor.getModel().onDidChangeContent(() => {
+                localStorage.setItem('code', editor.getValue());
+                var code = editor.getValue();
+                document.getElementById("run-output-content").innerHTML = code;
+                updateStatusBar();
+            });
 
-    // 监听编辑器内容变化事件，保存代码和语言到本地存储，并更新状态栏
-    editor.getModel().onDidChangeContent(() => {
-      localStorage.setItem('code', editor.getValue());
-      updateStatusBar();
-    });
+            document.getElementById('languageSelector').addEventListener('change', function () {
+                // 获取用户选择的语言
+                var selectedLanguage = this.value;
 
-    document.getElementById('languageSelector').addEventListener('change', function () {
-      // 获取用户选择的语言
-      var selectedLanguage = this.value;
+                // 设置编辑器的语言
+                monaco.editor.setModelLanguage(editor.getModel(), selectedLanguage);
 
-      // 设置编辑器的语言
-      monaco.editor.setModelLanguage(editor.getModel(), selectedLanguage);
+                // 保存语言到本地存储
+                localStorage.setItem('language', selectedLanguage);
 
-      // 保存语言到本地存储
-      localStorage.setItem('language', selectedLanguage);
+                // 更新状态栏
+                updateStatusBar();
+            });
 
-      // 更新状态栏
-      updateStatusBar();
-    });
+            document.getElementById('runbut').addEventListener('click',function(){
+                console.log('运行代码')
+                // 获取用户输入的代码
+                var code = editor.getValue();
+                try {
+                    // 使用 eval 执行用户输入的代码
+                    var result = eval(code);
+                    // 显示执行结果
+                    document.getElementById("run-output-content").innerHTML = result;
+                } catch (error) {
+                    // 如果发生错误，显示错误信息
+                    document.getElementById("run-output-content").innerHTML = "Error: " + error.message;
+                }
+            });
 
-    function updateStatusBar() {
-      var lineCount = editor.getModel().getLineCount();
-      var charCount = editor.getValue().length;
+            function updateStatusBar() {
+                var lineCount = editor.getModel().getLineCount();
+                var charCount = editor.getValue().length;
 
-      document.getElementById('lineCount').textContent = '行数: ' + lineCount;
-      document.getElementById('charCount').textContent = '字符数: ' + charCount;
-    }
+                document.getElementById('lineCount').textContent = '行数: ' + lineCount;
+                document.getElementById('charCount').textContent = '字符数: ' + charCount;
+            }
 
-    // 初始化时更新状态栏
-    updateStatusBar();
+            // 初始化时更新状态栏
+            updateStatusBar();
 
-    // 监听窗口大小变化，更新编辑器高度
-    window.addEventListener('resize', function () {
-      var newHeight = window.innerHeight - document.getElementById('toolbar').offsetHeight - document.getElementById('statusBar').offsetHeight;
-      document.getElementById('editor').style.height = newHeight + 'px';
-      editor.layout(); // 重新布局编辑器
-    });
-  });
-</script>
+            // 监听窗口大小变化，更新编辑器高度
+            window.addEventListener('resize', function () {
+                var newHeight = window.innerHeight - document.getElementById('toolbar').offsetHeight - document.getElementById('statusBar').offsetHeight;
+                document.getElementById('editor').style.height = newHeight + 'px';
+                editor.layout(); // 重新布局编辑器
+            });
+
+        });
+
+    </script>
 
 </body>
+
 </html>
