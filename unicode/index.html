@@ -53,7 +53,9 @@
 
         #convertButton,
         #encodeButton,
-        #copyButton {
+        #copyButton,
+        #urlEncodeButton,
+        #urlDecodeButton {
             height: 50px;
             font-size: 16px;
             margin: 10px;
@@ -62,8 +64,14 @@
 </head>
 <body>
     <div id="toolbar">
-        <button id="convertButton" onclick="convertUnicode()">Unicode解码 --></button>
-        <button id="encodeButton" onclick="encodeUnicode()">Unicode编码 --></button>
+        <div>
+            <button id="convertButton" onclick="convertUnicode()">Unicode解码 --></button>
+            <button id="encodeButton" onclick="encodeUnicode()">Unicode编码 --></button>
+        </div>
+        <div>
+            <button id="urlDecodeButton" onclick="urlDecode()">URL解码 --></button>
+            <button id="urlEncodeButton" onclick="urlEncode()">URL编码 --></button>
+        </div>
         <h3>Unicode 转换工具</h3>
         <button id="copyButton" onclick="copyOutput()">复制结果</button>
     </div>
@@ -104,6 +112,28 @@
 
             // 显示编码后的文本
             outputTextarea.value = encodedText;
+        }
+
+        function urlEncode() {
+            var inputText = document.getElementById('input').value;
+            var outputTextarea = document.getElementById('output');
+
+            // 使用内置函数 encodeURIComponent 进行 URL 编码
+            var encodedText = encodeURIComponent(inputText);
+
+            // 显示编码后的文本
+            outputTextarea.value = encodedText;
+        }
+
+        function urlDecode() {
+            var inputText = document.getElementById('input').value;
+            var outputTextarea = document.getElementById('output');
+
+            // 使用内置函数 decodeURIComponent 进行 URL 解码
+            var decodedText = decodeURIComponent(inputText);
+
+            // 显示解码后的文本
+            outputTextarea.value = decodedText;
         }
 
         function copyOutput() {
