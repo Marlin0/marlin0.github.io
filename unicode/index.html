@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicode 转换工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        #toolbar {
+            height: 100px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 15%;
+            padding-right: 15%;
+        }
+
+        #button {
+            width: 50px;
+            height: 30px;
+            padding: 50px;
+        }
+
+        #content {
+            display: flex;
+            flex: 1;
+            width: 100%;
+        }
+
+        #inputContainer,
+        #outputContainer {
+            flex: 1;
+            width: 50%;
+        }
+
+        #input,
+        #output {
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+        }
+
+        #convertButton,
+        #copyButton {
+            width: 100px;
+            height: 50px;
+            font-size: 16px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="toolbar">
+        <button  id="convertButton" onclick="convertUnicode()">转换 --></button>
+        <h3>Unicode 转换工具</h3>
+        <button id="copyButton" onclick="copyOutput()">复制结果</button>
+    </div>
+
+    <div id="content">
+        <div id="inputContainer">
+            <textarea id="input" placeholder="输入包含 Unicode 编码的字符串"></textarea>
+        </div>
+
+        <div id="outputContainer">
+            <textarea id="output" readonly placeholder="转换后的结果"></textarea>
+        </div>
+    </div>
+
+    <script>
+        function convertUnicode() {
+            var inputText = document.getElementById('input').value;
+            var outputTextarea = document.getElementById('output');
+
+            // 使用正则表达式匹配 Unicode 编码，并进行替换
+            var convertedText = inputText.replace(/\\u([\d\w]{4})/gi, function (match, grp) {
+                return String.fromCharCode(parseInt(grp, 16));
+            });
+
+            // 显示转换后的文本
+            outputTextarea.value = convertedText;
+        }
+
+        function copyOutput() {
+            var outputTextarea = document.getElementById('output');
+            outputTextarea.select();
+            document.execCommand('copy');
+            alert('已复制到剪贴板');
+        }
+    </script>
+</body>
+</html>
