@@ -52,8 +52,8 @@
         }
 
         #convertButton,
+        #encodeButton,
         #copyButton {
-            width: 100px;
             height: 50px;
             font-size: 16px;
             margin: 10px;
@@ -62,7 +62,8 @@
 </head>
 <body>
     <div id="toolbar">
-        <button  id="convertButton" onclick="convertUnicode()">转换 --></button>
+        <button id="convertButton" onclick="convertUnicode()">Unicode解码 --></button>
+        <button id="encodeButton" onclick="encodeUnicode()">Unicode编码 --></button>
         <h3>Unicode 转换工具</h3>
         <button id="copyButton" onclick="copyOutput()">复制结果</button>
     </div>
@@ -89,6 +90,20 @@
 
             // 显示转换后的文本
             outputTextarea.value = convertedText;
+        }
+
+        function encodeUnicode() {
+            var inputText = document.getElementById('input').value;
+            var outputTextarea = document.getElementById('output');
+
+            // 将文本转换为 Unicode 编码
+            var encodedText = '';
+            for (var i = 0; i < inputText.length; i++) {
+                encodedText += '\\u' + inputText.charCodeAt(i).toString(16).padStart(4, '0');
+            }
+
+            // 显示编码后的文本
+            outputTextarea.value = encodedText;
         }
 
         function copyOutput() {
