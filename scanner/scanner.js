@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 target: scannerContainer,
                 constraints: {
                     width: 640,
-                    height: 480,
+                    height: 200, // 设置高度以适应条形码
                     facingMode: "environment"
                 }
             },
