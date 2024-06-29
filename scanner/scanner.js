@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const clearBarcodesBtn = document.getElementById("clear_barcodes_btn");
     const barcodeListElement = document.getElementById("barcodes");
     const totalCountElement = document.getElementById("total_count");
+    const barcodeCountElement = document.getElementById("barcode_count");
     const scannerContainer = document.getElementById("scanner-container");
 
     let barcodes = JSON.parse(localStorage.getItem('barcodes')) || {};
@@ -14,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateUI() {
         barcodeListElement.innerHTML = '';
         let totalCount = 0;
+        let barcodeCount = 0;
 
         for (let code in barcodes) {
             let li = document.createElement('li');
@@ -28,9 +30,11 @@ document.addEventListener("DOMContentLoaded", function() {
             li.appendChild(deleteBtn);
             barcodeListElement.appendChild(li);
             totalCount += barcodes[code];
+            barcodeCount++;
         }
 
-        totalCountElement.innerText = `总计: ${totalCount}`;
+        totalCountElement.innerText = `总计扫描次数: ${totalCount}`;
+        barcodeCountElement.innerText = `不同条形码个数: ${barcodeCount}`;
     }
 
     function addBarcode(code) {
