@@ -1,56 +1,123 @@
 document.addEventListener("DOMContentLoaded", function() {
     const startScannerBtn = document.getElementById("start_scanner_btn");
-    const resultElement = document.getElementById("result");
-    const errorElement = document.getElementById("error");
+    const manualBarcodeInput = document.getElementById("manual_barcode_input");
+    const addManualBarcodeBtn = document.getElementById("add_manual_barcode_btn");
+    const copyBarcodesBtn = document.getElementById("copy_barcodes_btn");
+    const exportBarcodesBtn = document.getElementById("export_barcodes_btn");
+    const clearBarcodesBtn = document.getElementById("clear_barcodes_btn");
+    const barcodeListElement = document.getElementById("barcodes");
+    const totalCountElement = document.getElementById("total_count");
     const scannerContainer = document.getElementById("scanner-container");
 
-    let captureSession; 
+    let barcodes = JSON.parse(localStorage.getItem('barcodes')) || {};
+
+    function updateUI() {
+        barcodeListElement.innerHTML = '';
+        let totalCount = 0;
+
+        for (let code in barcodes) {
+            let li = document.createElement('li');
+            li.innerText = `条形码: ${code}, 次数: ${barcodes[code]}`;
+            let deleteBtn = document.createElement('button');
+            deleteBtn.innerText = '删除';
+            deleteBtn.onclick = function () {
+                delete barcodes[code];
+                localStorage.setItem('barcodes', JSON.stringify(barcodes));
+                updateUI();
+            };
+            li.appendChild(deleteBtn);
+            barcodeListElement.appendChild(li);
+            totalCount += barcodes[code];
+        }
+
+        totalCountElement.innerText = `总计: ${totalCount}`;
+    }
+
+    function addBarcode(code) {
+        if (barcodes[code]) {
+            barcodes[code]++;
+        } else {
+            barcodes[code] = 1;
+        }
+        localStorage.setItem('barcodes', JSON.stringify(barcodes));
+        updateUI();
+    }
 
     startScannerBtn.addEventListener("click", function() {
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            errorElement.innerText = "你的浏览器不支持相机访问。请使用现代浏览器如Chrome或Firefox。";
+            alert("你的浏览器不支持相机访问。请使用现代浏览器如Chrome或Firefox。");
             return;
         }
 
-        captureSession = new Quagga.Session({
+        Quagga.init({
             inputStream: {
                 name: "Live",
                 type: "LiveStream",
-                target: scannerContainer, 
+                target: scannerContainer,
                 constraints: {
                     width: 640,
                     height: 480,
-                    facingMode: "environment" 
-                },
+                    facingMode: "environment"
+                }
             },
             decoder: {
                 readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader"]
             }
-        });
-
-        captureSession.init(function(err) {
+        }, function(err) {
             if (err) {
                 console.error(err);
-                errorElement.innerText = "初始化 Quagga 时出错：" + err;
+                alert("初始化 Quagga 时出错：" + err);
                 return;
             }
             console.log("Initialization finished. Ready to start");
-            captureSession.start();
+            Quagga.start();
         });
 
-        captureSession.onDetected(function(data) {
-            resultElement.innerText = `Barcode detected and processed : [${data.codeResult.code}]`;
-            captureSession.stop(); 
-        });
-
-        captureSession.onProcessed(function(result) {
-            if (result) {
-                if (result.boxes) {
-                    result.boxes.forEach(function (box) {
-                        Quagga.CameraAccess.drawBox(box, {color: 'green', lineWidth: 2}, scannerContainer);
-                    });
-                }
-            }
+        Quagga.onDetected(function(data) {
+            let code = data.codeResult.code;
+            addBarcode(code);
         });
     });
+
+    addManualBarcodeBtn.addEventListener("click", function() {
+        let code = manualBarcodeInput.value.trim();
+        if (code) {
+            addBarcode(code);
+            manualBarcodeInput.value = '';
+        }
+    });
+
+    copyBarcodesBtn.addEventListener("click", function() {
+        let text = Object.keys(barcodes).map(code => `${code}: ${barcodes[code]}`).join('\n');
+        navigator.clipboard.writeText(text).then(function() {
+            alert('条形码已复制到剪贴板');
+        }, function() {
+            alert('复制失败');
+        });
+    });
+
+    exportBarcodesBtn.addEventListener("click", function() {
+        let text = Object.keys(barcodes).map(code => `${code}: ${barcodes[code]}`).join('\n');
+        let blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = 'barcodes.txt';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 0);
+    });
+
+    clearBarcodesBtn.addEventListener("click", function() {
+        if (confirm("确定要清空所有扫描记录吗？")) {
+            barcodes = {};
+            localStorage.removeItem('barcodes');
+            updateUI();
+        }
+    });
+
+    updateUI();
 });
