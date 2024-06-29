@@ -3,15 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bar Code Scanner</title>
+    <title>Barcode Scanner</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+    <style>
+        #scanner-container {
+            width: 100%;
+            max-width: 640px;
+            height: 480px;
+            margin: 20px auto;
+            border: 1px solid black;
+        }
+        #barcode-list {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Scan a Barcode</h1>
+    <h1>Barcode Scanner</h1>
     <button id="start_scanner_btn">开始扫描</button>
     <div id="scanner-container"></div>
-    <p id="result"></p>
-    <p id="error"></p>
+    <div>
+        <input type="text" id="manual_barcode_input" placeholder="手动输入条形码">
+        <button id="add_manual_barcode_btn">添加条形码</button>
+    </div>
+    <button id="copy_barcodes_btn">复制所有条形码</button>
+    <button id="export_barcodes_btn">导出条形码</button>
+    <button id="clear_barcodes_btn">清空所有扫描记录</button>
+    <div id="barcode-list">
+        <h2>已扫描的条形码</h2>
+        <ul id="barcodes"></ul>
+        <p id="total_count">总计: 0</p>
+    </div>
     <script src="scanner.js"></script>
 </body>
 </html>
