@@ -1,1 +1,80 @@
-
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>快递单号录入系统</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="api_style.css">
+    <style>
+      </style>
+</head>
+<body>
+    <div id="addnumbering-div">
+        <label id="addnumbering-label">-</label>
+    </div>
+    <div id="input-area">
+        <label for="tracking-number">输入快递单号:</label>
+        <input type="text" id="tracking-number" placeholder="输入快递单号并回车">
+        <button id="addnumber">添加</button>
+    </div>
+    <div id="date-filter">
+        <button id="clear-date">清除 当前日期 所有单号</button>
+        <button id="export">导出 当前日期 所有单号</button>
+        <label for="date-select">选择日期:</label>
+        <select id="date-select">
+            <option value="all">所有日期</option>
+        </select>
+        <input type="search" id="search" placeholder="搜索快递单号">
+        <button id="searchnumber">查询</button>
+    </div>
+    <div id="display-area">
+        <label>当前日期共计：</label>
+        <label id="number-total" ></label>
+        <label>个 -- </label>
+        <label> 当前页面显示：</label>
+        <label id="currentpagennumber" >-</label>
+        <label>个</label>
+        <button id="copydata">复制当前列表中的数据</button>
+    </div>
+    <div id="scroll-container">
+        <ul id="tracking-list">
+          <!-- 列表项内容 -->
+            <table id="tracking-list">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>快递单号</th>
+                        <th>录入时间</th>
+                        <th>添加次数</th>
+                        <th>快递公司</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </ul>
+      </div>
+    <div>
+        <div id="pagination-container">
+            <div id="ipp-div">
+                <label for="items-per-page">每页显示:</label>
+                <select id="items-per-page">
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                </select>
+            </div>
+            <ul class="pagination" id="pagination">
+                <!-- 分页按钮会通过JavaScript进行填充 -->
+            </ul>
+        </div>
+    </div>
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+    <script>
+    </script>
+</body>
+</html>

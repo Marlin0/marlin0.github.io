@@ -1,0 +1,41 @@
+/* 样式 */
+.alert {
+    padding: 15px;
+    background-color: #f44336; /* 红色 */
+    color: white;
+    margin-bottom: 15px;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+}
+
+.alert-success {
+    background-color: #4CAF50; /* 绿色 */
+}
+
+.alert-info {
+    background-color: #2196F3; /* 蓝色 */
+}
+
+.alert-warning {
+    background-color: #ff9800; /* 橙色 */
+}
+
+.alert-error {
+    background-color: #f44336; /* 红色 */
+}
+
+.alert.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}

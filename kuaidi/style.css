@@ -1,0 +1,124 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+select{
+    font-size: 20px;
+    color: red;
+}
+
+button:disabled {
+    background-color: gray; /* 修改背景色 */
+    color: white; /* 修改文字颜色 */
+}
+#input-area, #date-filter, #display-area {
+    margin: 2px;
+    padding: 2px;
+    background-color: #fff;
+    border-radius: 2px;
+    border: 1px solid #ddd;
+    width: 50%; /* 降低区域的宽度 */
+    text-align: center; /* 区域内容居中 */
+}
+#input-area label, #date-filter label, #display-area label {
+  font-weight: bold;
+}
+
+#addnumbering-div {
+    margin-top: 10px;
+    font-size: 100px;
+    color: rgb(0, 153, 133);
+}
+#pagination-container {
+    display: flex;
+    justify-content: center;
+    padding: 0px 0;
+}
+
+#pagination-container .pagination {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+}
+
+#pagination-container .pagination li {
+    margin: 0 2px;
+}
+
+#tracking-list {
+    width: 96%; /* 限制宽度为父元素的80% */
+    margin: 0 auto; /* 设置自动边距以实现居中 */
+}
+
+#ipp-div{
+    margin-top: 23px;
+    margin-right: 5px;
+}
+#number-total {
+    font-size: 20px;
+    color: red;
+}
+#currentpagennumber{
+    font-size: 20px;
+    color: red;
+}
+#search{
+    font-size: 18px;
+}
+
+#tracking-number {
+  font-size: 28px; /* 调整字体大小 */
+  padding: 5px; /* 调整元素的内边距以使其显示得更大 */
+  margin: 0 0;
+  border-radius: 0;
+  border: 1px solid #ddd;
+  width: 30%;
+  color: green;
+}
+
+label[for="tracking-number"] {
+    font-size: 24px; /* 调整字体大小 */
+    color: #000;
+}
+
+#scroll-container {
+    width: 60%;
+    height: 600px; /* 你可以根据需要调整这个值 */
+    overflow-y: auto; /* 启用垂直滚动 */
+}
+
+button {
+  padding: 10px 13px;
+  border: 0;
+  border-radius: 1px;
+  background-color: #3ab0ff;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #099999;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background-color: #007bff;
+  color: #fff;
+}
