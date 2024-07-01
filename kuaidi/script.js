@@ -139,21 +139,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //删除
     window.deleteNumber = function(number) {
-        console.log(`删除的快递单号: ${number}`);
+        //console.log(`删除的快递单号: ${number}`);
         
-        // 查找与给定快递单号相匹配项的索引
-        const index = trackingNumbers.findIndex(item => item.number === number);
-        if (index !== -1) {
-            // 如果找到匹配项，删除其元素
-            trackingNumbers.splice(index, 1);
-            localStorage.setItem('trackingNumbers', JSON.stringify(trackingNumbers));
-            const selectedDate = dateSelect.value;
-            const filteredNumbers = trackingNumbers.filter(item => item.time === selectedDate || selectedDate === 'all');
-            renderList(filteredNumbers);
-            showAlert(`快递单号: ${number} 已删除`);
-        } else {
-            //console.error(`未找到快递单号: ${number}`);
-            showAlert(`未找到快递单号: ${number}`, 'error', 5000);
+        // 显示确认对话框
+        const isConfirmed = confirm(`确定要删除 快递单号："${number}" 吗？`);
+        
+        if (isConfirmed) {
+            // 查找与给定快递单号相匹配项的索引
+            const index = trackingNumbers.findIndex(item => item.number === number);
+            if (index !== -1) {
+                // 如果找到匹配项，删除其元素
+                trackingNumbers.splice(index, 1);
+                localStorage.setItem('trackingNumbers', JSON.stringify(trackingNumbers));
+                const selectedDate = dateSelect.value;
+                const filteredNumbers = trackingNumbers.filter(item => item.time === selectedDate || selectedDate === 'all');
+                renderList(filteredNumbers);
+                showAlert(`快递单号: ${number} 已删除`);
+            } else {
+                //console.error(`未找到快递单号: ${number}`);
+                showAlert(`未找到快递单号: ${number}`, 'error', 5000);
+            }
         }
     };
 
