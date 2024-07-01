@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search');
     const addnumber = document.getElementById('addnumber');
     const searchnumber = document.getElementById('searchnumber');
+    const checkbox = document.getElementById("checkbox");
     //从缓存中提取trackingNumbers的数据
     let trackingNumbers = JSON.parse(localStorage.getItem('trackingNumbers')) || [];
 
@@ -331,7 +332,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // 遍历每一项数据
         data.forEach(row => {
             //const rowText = Object.values(row).join('\t'); // 使用制表符或其他分隔符来分隔各个字段
-            const rowText = row.number + ","
+            let rowText = row.number
+            if(checkbox.checked){
+                rowText = row.number + ","
+            }
             txtRows.push(rowText);
         });
 
@@ -357,7 +361,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // 遍历每一行
         rows.forEach(row => {
             // 假设快递单号在第一列，索引为0
-            const trackingNumber = row.querySelector('td:nth-child(2)').innerText + ","; // 使用:nth-child选择器定位到特定列
+            let trackingNumber = row.querySelector('td:nth-child(2)').innerText
+            if (checkbox.checked){
+                trackingNumber = row.querySelector('td:nth-child(2)').innerText + ","; // 使用:nth-child选择器定位到特定列
+            }
             // 将当前行的“快递单号”添加到数组中
             trackingNumbers.push(trackingNumber);
         });
@@ -372,6 +379,31 @@ document.addEventListener('DOMContentLoaded', function() {
             showAlert('复制到剪贴板失败：', "error");
         });
     });
+
+    checkbox.addEventListener("change", function() {
+        // 保存勾选框状态到缓存
+        localStorage.setItem('checkboxStatus', checkbox.checked);
+
+        // if (this.checked) {
+        //     // 勾选框被选中时执行的操作
+        //     console.log("勾选框被选中");
+        // } else {
+        //     // 勾选框未被选中时执行的操作
+        //     console.log("勾选框未被选中");
+        // }
+    });
+    // checkbox.addEventListener("click",function(){
+    //     localStorage.setItem('checkboxStatus', checkbox.checked);
+    // })
+    function innt_checkbox(){
+        // 从缓存中读取勾选框状态
+        var checkboxStatus = localStorage.getItem('checkboxStatus');
+        if (checkboxStatus === 'true') {
+            checkbox.checked = true;
+        } else {
+            checkbox.checked = false;
+        }
+    }
     //-----------------------------复制当前列表中的数据-----------------------------------
 
     //页面初始化
@@ -386,4 +418,5 @@ document.addEventListener('DOMContentLoaded', function() {
         showAlert("\n\n\n\n\n 扫描快递单号前 ***注意*** 切换至 《英文输入法》 \n\n\n\n\n","warning",5000)
     }
     init_list()
+    innt_checkbox()
 });
