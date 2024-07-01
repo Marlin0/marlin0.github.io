@@ -17,6 +17,13 @@ button:disabled {
     background-color: gray; /* 修改背景色 */
     color: white; /* 修改文字颜色 */
 }
+
+/* 设置勾选框的大小 */
+#checkbox {
+    margin-left: 10px;
+    transform: scale(1.5); /* 使用 transform 属性来缩放勾选框 */
+  }
+
 #input-area, #date-filter, #display-area {
     margin: 2px;
     padding: 2px;
