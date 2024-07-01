@@ -383,6 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedDate = dateSelect.value;
         const filteredNumbers = trackingNumbers.filter(item => item.time === selectedDate || selectedDate === 'all');
         renderList(filteredNumbers);
+        showAlert("\n\n\n\n\n 扫描快递单号前 ***注意*** 切换至 《英文输入法》 \n\n\n\n\n","warning",5000)
     }
     init_list()
 });
